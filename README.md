@@ -61,17 +61,138 @@ DAOs: interactúan con la persistencia.
 <!-- DTOs: definen qué información se expone. -->
 Middlewares: procesan validaciones intermedias.
 
-## Endpoint definidos en Preentrega I para usar en Postmam
+## Endpoint definidos en Preentrega I, II y III para usar en Postmam
 
 Con el servidor corriendo (por defecto en `http://localhost:3000`, salvo que haya cambiado `PORT` en `.env`):
 
-| Método | URL | Respuesta esperada |
-|---|---|---|
-| GET | `http://localhost:3000/api/health` | {"status": "ok", "message": "Servidor activo"} |
-| GET | `http://localhost:3000/api/sessions` | [] |
-| GET | `http://localhost:3000/api/events` | [] |
-| POST | `http://localhost:3000/api/events` | {"status": "success", "payload": {"title": "Readme", "description": "Descripcion para README", "date": "2026-11-15T00:00:00.000Z","location": "Rosario", "capacity": 1000, "qvendidas": 0, "status": "draft", "_id": "6ae8ee0ae9e2b1118fe3f80a", "createdAt": "2026-11-02T20:09:46.474Z", "updatedAt": "2026-11-02T20:09:46.474Z", "__v": 0}} |
-| POST | `http://localhost:3000/api/sessions/register` | {"status": "succes", "payload": {"id": "6ae7457d764cdb3a1aefe21f", "first_name": "Sol", "last_name": "Orbe","email": "`sol@mail.com`","role": "user"}} |
+### 1. Health Check
+
+- **Método:** `GET`
+- **Ruta:** `/api/health`
+- **Descripción:** Verifica el estado operativo del servidor.
+- **Body:** No requiere.
+- **Respuestas:**
+  - `200 OK`:
+
+    ```json
+    {"status": "ok", "message": "Servidor activo"} 
+    ```
+
+### 2. Obtener Eventos
+
+- **Método:** `GET`
+- **Ruta:** `api/events`
+- **Descripción:** Devuelve los eventos disponibles.
+- **Body:** No requiere.
+- **Respuestas:**
+  - `200 OK`:
+
+    ```json
+    "status": "success",
+    "payload": 
+        {
+            "_id": "6ae593ad70a86c1a0fffca1c",
+            "title": "Andres Calamaro",
+            "description": "recital de Andres Calamaro",
+            "date": "2026-10-30T00:00:00.000Z",
+            "location": "Rosario",
+            "capacity": 90,
+            "qvendidas": 1,
+            "status": "draft",
+            "createdAt": "2026-10-31T07:07:25.284Z",
+            "updatedAt": "2026-10-31T07:07:25.284Z",
+            "__v": 0
+        }
+        por cada evento disponible.
+
+### 3. Crear Evento
+
+- **Método:** `POST`
+- **Ruta:** `api/events`
+- **Descripción:** Crea un nuevo evento.
+- **Body:**
+  
+  ```json
+  {
+    "title": "Readme",
+    "description": "Descripcion para README",
+    "date": "2026-11-15",
+    "location": "Rosario",
+    "capacity": 1000,
+    "status": "draft"
+  }
+  ```
+
+- **Respuestas:**
+  - `201 Created`:
+
+    ```json
+    {
+    "status": "success",
+    "payload": {
+        "title": "Readme",
+        "description": "Descripcion para README",
+        "date": "2026-11-15T00:00:00.000Z",
+        "location": "Rosario",
+        "capacity": 1000,
+        "qvendidas": 0,
+        "status": "draft",
+        "_id": "6aea5d26235753719af51b1d",
+        "createdAt": "2026-11-03T22:16:06.067Z",
+        "updatedAt": "2026-11-03T22:16:06.067Z",
+        "__v": 0
+    }
+    }
+    ```
+
+### 4. Registro de usuario
+
+- **Método:** `POST`
+- **Ruta:** `/api/sessions/register`
+- **Body:**
+
+  ```json
+  {
+    "first_name": "Sol",
+    "last_name": "Orbe",
+    "email": "sol@mail.com",
+    "password": "password123"
+  }
+  ```
+
+- **Respuestas:**
+  - `201 Created`:
+
+    ```json
+    {"status": "success", "payload": {"id": "6ae7457d764cdb3a1aefe21f", "first_name": "Sol", "last_name": "Orbe","email": "`sol@mail.com`","role": "user"}} 
+    ```
+
+  -`400 Bad Request`:
+
+    ```json
+    {
+      "status": "error",
+      "message": "Faltan campos obligatorios"
+    }
+    ```
+
+  -`409 Conflict`:
+
+    ```json
+    {
+      "status": "error",
+      "message": "El correo electrónico ya está registrado"
+    }
+    ```
+
+  -`500 Internal Server Error`:
+
+    ```json
+    {
+      "status": "error",
+      "message": "Error interno del servidor"
+    }
+    ```
 
 ## Ejemplos de casos de prueba en
 
