@@ -3,6 +3,7 @@
     "bcrypt": "^6.0.0",
     "dotenv": "^18.0.8",
     "express": "^5.3.0",
+    "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.11.2"
   },
   "name": "preentrega3",
@@ -11,11 +12,17 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "start": "node src/server.js",
     "start:dev": "node --watch src/server.js"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "mongodb-memory-server": "^11.3.0",
+    "supertest": "^7.3.1",
+    "vitest": "^5.1.0"
+  }
 }

@@ -1,5 +1,5 @@
 import { UsersRepository } from "../repositories/sessions.repository.js";
-import { createHash } from "../utils/hash.js";
+import { createHash, isValidPassword } from "../utils/hash.js";
 
 const createServiceError = (message, statusCode) => {
   const error = new Error(message);
@@ -46,7 +46,7 @@ export class SessionsService {
     }
 
     //Buscar si ya existe un usuario con ese email
-    const existingUser = await UsersRepository.findeByEmail(normalizedEmail);
+    const existingUser = await UsersRepository.findByEmail(normalizedEmail);
     if (existingUser) {
       throw createServiceError("El email ya esta registrado", 409);
     }
@@ -71,5 +71,21 @@ export class SessionsService {
       email: newUser.email,
       role: newUser.role,
     };
+  };
+
+  static login = async ({email, password}) => {
+    if (typeof email !== 'string' || !email.trim() || typeof password !== 'string' || !password) {
+      throw createServiceError('Email y contraseña son obligatorios', 401);
+    }
+
+
+    const user = await UsersRepository.findByEmail(email.trim().toLowerCase());
+    
+    const isValid = user ? await isValidPassword(password, user.password) : false;
+    if (!isValid) {
+      throw createServiceError('Credenciales invalidas', 401);
+    }
+
+    return "New token";
   };
 }

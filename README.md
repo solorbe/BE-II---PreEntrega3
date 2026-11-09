@@ -35,7 +35,8 @@ Podrá gestionar usuarios, categorías, eventos e inscripciones.
 
 ```bash
 git clone
-npm install express dotenv mongoose bcrypt
+npm install express dotenv mongoose bcrypt jsonwebtoken
+npm install -D vitest supertest mongodb-memory-server 
 completar .env.example .env  
 npm run start:dev 
 ```
@@ -72,7 +73,7 @@ Con el servidor corriendo (por defecto en `http://localhost:3000`, salvo que hay
 - **Descripción:** Verifica el estado operativo del servidor.
 - **Body:** No requiere.
 - **Respuestas:**
-  - `200 OK`:
+  - `200 OK`
 
     ```json
     {"status": "ok", "message": "Servidor activo"} 
@@ -85,7 +86,7 @@ Con el servidor corriendo (por defecto en `http://localhost:3000`, salvo que hay
 - **Descripción:** Devuelve los eventos disponibles.
 - **Body:** No requiere.
 - **Respuestas:**
-  - `200 OK`:
+  - `200 OK`
 
     ```json
     "status": "success",
@@ -103,7 +104,8 @@ Con el servidor corriendo (por defecto en `http://localhost:3000`, salvo que hay
             "updatedAt": "2026-10-31T07:07:25.284Z",
             "__v": 0
         }
-        por cada evento disponible.
+    por cada evento disponible.
+    ```
 
 ### 3. Crear Evento
 
@@ -124,7 +126,7 @@ Con el servidor corriendo (por defecto en `http://localhost:3000`, salvo que hay
   ```
 
 - **Respuestas:**
-  - `201 Created`:
+  - `201 Created`
 
     ```json
     {
@@ -161,13 +163,21 @@ Con el servidor corriendo (por defecto en `http://localhost:3000`, salvo que hay
   ```
 
 - **Respuestas:**
-  - `201 Created`:
+  - `201 Created`
 
     ```json
-    {"status": "success", "payload": {"id": "6ae7457d764cdb3a1aefe21f", "first_name": "Sol", "last_name": "Orbe","email": "`sol@mail.com`","role": "user"}} 
+    {
+      "status": "success", 
+      "payload": {
+        "id": "6ae7457d764cdb3a1aefe21f", 
+        "first_name": "Sol", 
+        "last_name": "Orbe",
+        "email": "`sol@mail.com`",
+        "role": "user"}
+    } 
     ```
 
-  -`400 Bad Request`:
+  - `400 Bad Request`
 
     ```json
     {
@@ -176,7 +186,7 @@ Con el servidor corriendo (por defecto en `http://localhost:3000`, salvo que hay
     }
     ```
 
-  -`409 Conflict`:
+  - `409 Conflict`
 
     ```json
     {
@@ -185,7 +195,7 @@ Con el servidor corriendo (por defecto en `http://localhost:3000`, salvo que hay
     }
     ```
 
-  -`500 Internal Server Error`:
+  -`500 Internal Server Error`
 
     ```json
     {
@@ -197,6 +207,23 @@ Con el servidor corriendo (por defecto en `http://localhost:3000`, salvo que hay
 ## Ejemplos de casos de prueba en
 
   Casos a probar antes de entregar.pdf
+
+## Instrucciones para ejecutar los tests
+
+```bash
+npm run test
+```
+
+Los tests son aislados: usan una base de datos en memoria que se destruye después de cada test.
+Respuesta:
+  tests/users.test.js (3 tests) 2144ms
+   ✓ POST api/sessions/register (3)
+     ✓ debería registrar un usuario y devolver 201 con los datos sin password 173ms
+     ✓ debería devolver 409 si el email ya está registrado 72ms
+     ✓ debería devolver 400 si faltan campos obligatorios 6ms
+  Test Files  1 passed (1)
+      Tests  3 passed (3)
+    Start at  08:36:28
 
 ## Estructura actual
 
@@ -234,6 +261,10 @@ BE II - PreEntrega2/
 │   │   └── hash.js
 │   ├── app.js
 │   └── server.js
+├── tests/
+│   ├── setup.js
+│   └── users.test.js
+├── vite.config.js
 ├── .env.example
 ├── .gitignore
 ├── Casos a probar antes de entregar.pdf

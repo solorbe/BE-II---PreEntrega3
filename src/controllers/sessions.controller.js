@@ -1,4 +1,5 @@
 import { SessionsService } from "../services/sessions.services.js";
+import {config} from "../config/config.js";
 
 export class SessionsController {
   static register = async (req, res) => {
@@ -8,7 +9,7 @@ export class SessionsController {
 
       //Respondemos 201 porque se creo un recurso
       res.status(201).json({
-        status: "succes",
+        status: "success",
         payload: newUser,
       });
     } catch (error) {
@@ -34,4 +35,32 @@ export class SessionsController {
 
 
   };
+  static login = async (req, res) => {
+    try {
+      const token = await SessionsService.login (req.body ?? {});
+      res.cookie('currentUser', token, {
+        httpOnly: true,
+        sameSite: 'lax',
+        secure: config.nodeEnv === 'production',
+        maxAge: 3600,
+      });
+      res.status(200).json({ status: 'success', message: 'Login Correcto' });
+    } catch (error) {
+      //Errores esperados del servicio
+      if (error.statusCode) {
+        return res.status(error.statusCode).json({
+          status: 'error',
+          message: error.message,
+        });
+      }
+
+      console.log(error);
+      res.status(500).json({
+        status: 'error',
+        message: 'Error interno del servidor',
+      });
+    }
+  };
 }
+
+
