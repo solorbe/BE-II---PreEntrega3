@@ -194,7 +194,7 @@ Con el servidor corriendo (por defecto en `http://localhost:3000`, salvo que hay
     }
     ```
 
-  -`500 Internal Server Error`
+  - `500 Internal Server Error`
 
     ```json
     {
@@ -272,10 +272,11 @@ Con el servidor corriendo (por defecto en `http://localhost:3000`, salvo que hay
   - `401 Unauthorized`
 
     ```json
-  {
+    {
     "status": "error",
     "message": "Unauthorized"
-  }
+    }
+    ```
 
     ```json
     {
@@ -289,7 +290,7 @@ Con el servidor corriendo (por defecto en `http://localhost:3000`, salvo que hay
 - **Método:** `POST`
 - **Ruta:** `/api/sessions-stateless/logout`
 - **Body:**
-    vací0
+    vacío
 
 - **Respuestas:**
   - `200 OK`
@@ -303,7 +304,7 @@ Con el servidor corriendo (por defecto en `http://localhost:3000`, salvo que hay
 
 ## Ejemplos de casos de prueba en
 
-  Casos a probar antes de entregar.pdf
+  Casos a probar antes de entregar III.pdf
 
 ## Instrucciones para ejecutar los tests
 
@@ -311,16 +312,18 @@ Con el servidor corriendo (por defecto en `http://localhost:3000`, salvo que hay
 npm run test
 ```
 
+```bash
 Los tests son aislados: usan una base de datos en memoria que se destruye después de cada test.
 Respuesta:
   tests/users.test.js (3 tests) 2144ms
    ✓ POST api/sessions/register (3)
-     ✓ debería registrar un usuario y devolver 201 con los datos sin password 173ms
-     ✓ debería devolver 409 si el email ya está registrado 72ms
-     ✓ debería devolver 400 si faltan campos obligatorios 6ms
+   ✓ debería registrar un usuario y devolver 201 con los datos sin password 173ms
+   ✓ debería devolver 409 si el email ya está registrado 72ms
+   ✓ debería devolver 400 si faltan campos obligatorios 6ms
   Test Files  1 passed (1)
       Tests  3 passed (3)
     Start at  08:36:28
+```
 
 ## Estructura actual
 
