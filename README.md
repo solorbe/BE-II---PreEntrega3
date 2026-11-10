@@ -47,20 +47,20 @@ Se definen en .env
 
 En .env.example se encuentran disponibles los nombres de las variables que resultan necesarias para el funcionamiento de esta aplicación.
 
-## Flujo de una petición en Preentrega I
+## Flujo de una petición
 
 ```bash
 Cliente -> Routers -> Controllers -> Services -> Repositories -> DAO -> Model
 ```
 
-Routes: definen endpoints.
-Controllers: reciben request y devuelven response.
-Models: esquema del recurso.
-Services: manejan lógica de negocio.
-Repositories: organizan operaciones de datos.
-DAOs: interactúan con la persistencia.
+- Routes: definen endpoints.
+- Controllers: reciben request y devuelven response.
+- Models: esquema del recurso.
+- Services: manejan lógica de negocio.
+- Repositories: organizan operaciones de datos.
+- DAOs: interactúan con la persistencia.
 <!-- DTOs: definen qué información se expone. -->
-Middlewares: procesan validaciones intermedias.
+- Middlewares: procesan validaciones intermedias.
 
 ## Endpoint definidos en Preentrega I, II y III para usar en Postmam
 
@@ -104,7 +104,6 @@ Con el servidor corriendo (por defecto en `http://localhost:3000`, salvo que hay
             "updatedAt": "2026-10-31T07:07:25.284Z",
             "__v": 0
         }
-    por cada evento disponible.
     ```
 
 ### 3. Crear Evento
@@ -218,7 +217,7 @@ Con el servidor corriendo (por defecto en `http://localhost:3000`, salvo que hay
   ```
 
 - **Respuestas:**
-- `200 OK`
+  - `200 OK`
 
   ```json
   {
@@ -227,7 +226,7 @@ Con el servidor corriendo (por defecto en `http://localhost:3000`, salvo que hay
   }
   ```
 
-- `401 Unauthorized`
+  - `401 Unauthorized`
 
     ```json
     {
@@ -257,7 +256,7 @@ Con el servidor corriendo (por defecto en `http://localhost:3000`, salvo que hay
   ```
 
 - **Respuestas:**
-- `200 OK`
+  - `200 OK`
   
    ```json
     {
@@ -270,7 +269,7 @@ Con el servidor corriendo (por defecto en `http://localhost:3000`, salvo que hay
     }
     ```
 
-- `401 Unauthorized`
+  - `401 Unauthorized`
 
     ```json
   {
@@ -293,7 +292,7 @@ Con el servidor corriendo (por defecto en `http://localhost:3000`, salvo que hay
     vací0
 
 - **Respuestas:**
-- `200 OK`
+  - `200 OK`
   
    ```json
     {
