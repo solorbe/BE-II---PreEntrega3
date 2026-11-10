@@ -35,7 +35,7 @@ Podrá gestionar usuarios, categorías, eventos e inscripciones.
 
 ```bash
 git clone
-npm install express dotenv mongoose bcrypt jsonwebtoken
+npm install express dotenv mongoose bcrypt jsonwebtoken cookie-parser
 npm install -D vitest supertest mongodb-memory-server 
 completar .env.example .env  
 npm run start:dev 
@@ -204,6 +204,104 @@ Con el servidor corriendo (por defecto en `http://localhost:3000`, salvo que hay
     }
     ```
 
+### 5. Login de usuario
+
+- **Método:** `POST`
+- **Ruta:** `/api/sessions-stateless/login`
+- **Body:**
+
+  ```json
+  {
+    "email": "nieves@mail.com",
+    "password": "password123"
+  }
+  ```
+
+- **Respuestas:**
+- `200 OK`
+
+  ```json
+  {
+    "status": "success",
+    "message": "Login Correcto"
+  }
+  ```
+
+- `401 Unauthorized`
+
+    ```json
+    {
+    "status": "error",
+    "message": "Email y contraseña son obligatorios"
+    }
+    ```
+
+    ```json
+    {
+    "status": "error",
+    "message": "Credenciales invalidas"
+    }
+    ```
+
+### 6. Consultar usuario autenticado  
+
+- **Método:** `GET`
+- **Ruta:** `/api/sessions-stateless/current`
+- **Body:**
+
+  ```json
+  {
+    "email": "nieves@mail.com",
+    "password": "password123"
+  }
+  ```
+
+- **Respuestas:**
+- `200 OK`
+  
+   ```json
+    {
+    "status": "success",
+    "payload": {
+        "id": "6af2266f028781a0c5cbfaae",
+        "email": "nieves@mail.com",
+        "role": "user"
+      }
+    }
+    ```
+
+- `401 Unauthorized`
+
+    ```json
+  {
+    "status": "error",
+    "message": "Unauthorized"
+  }
+
+    ```json
+    {
+      "status": "error",
+      "message": "Faltan campos obligatorios"
+    }
+    ```
+
+### Logout usuario autenticado  
+
+- **Método:** `POST`
+- **Ruta:** `/api/sessions-stateless/logout`
+- **Body:**
+    vací0
+
+- **Respuestas:**
+- `200 OK`
+  
+   ```json
+    {
+    "status": "success",
+    "message": "Sesión cerrada correctamente"
+    }
+    ```
+
 ## Ejemplos de casos de prueba en
 
   Casos a probar antes de entregar.pdf
@@ -228,7 +326,7 @@ Respuesta:
 ## Estructura actual
 
 ```bash
-BE II - PreEntrega2/
+BE II - PreEntrega3/
 ├── src/
 │   ├── config/
 │   │   ├── config.js
@@ -237,10 +335,12 @@ BE II - PreEntrega2/
 │   │   ├── events.controller.js
 │   │   ├── health.controller.js
 │   │   └── sessions.controller.js
+│   │   └── sessions-stateless.controller.js
 │   ├── dao/
 │   │   ├── events.dao.js
 │   │   └── users.dao.js
 │   ├── middlewares/
+│   │   ├──auth.middlewares.js
 │   ├── models/
 │   │   ├── events.model.js
 │   │   ├── sessions.model.js
@@ -252,13 +352,14 @@ BE II - PreEntrega2/
 │   │   ├── events.routes.js
 │   │   ├── health.routes.js
 │   │   ├── sessions.routes.js
+│   │   ├── sessions-stateless.routes.js
 │   │   ├── tickets.routes.js
-│   │   └── users.routes.js
 │   ├── services/
 │   │   ├── events.services.js
 │   │   └── sessions.services.js
 │   ├── utils/
 │   │   └── hash.js
+│   │   └── jwt.js
 │   ├── app.js
 │   └── server.js
 ├── tests/
@@ -267,7 +368,7 @@ BE II - PreEntrega2/
 ├── vite.config.js
 ├── .env.example
 ├── .gitignore
-├── Casos a probar antes de entregar.pdf
+├── Casos a probar antes de entregar III.pdf
 ├── package-lock.json
 ├── package.json
 └── README.md

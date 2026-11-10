@@ -1,20 +1,23 @@
 import express from 'express';
-
+import cookieParser from 'cookie-parser';
 
 import healthRouter from './routes/health.routes.js';
 import eventsRouter from './routes/events.routes.js';
 import ticketsRouter from './routes/tickets.routes.js';
 //import usersRouter from './routes/users.routes.js';
 import sessionsRouter from './routes/sessions.routes.js'
+import sessionsStatelessRouter from './routes/sessions-stateless.routes.js' 
 
 const app = express();
 
 app.use(express.json());
+app.use(cookieParser());
 
 app.use('/api/health', healthRouter);
 app.use('/api/events', eventsRouter);
 app.use('/api/tickets', ticketsRouter);
 //app.use('/api/users', usersRouter);
 app.use('/api/sessions', sessionsRouter);
+app.use('/api/sessions-stateless', sessionsStatelessRouter);
 
 export default app;

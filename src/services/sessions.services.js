@@ -1,5 +1,6 @@
 import { UsersRepository } from "../repositories/sessions.repository.js";
 import { createHash, isValidPassword } from "../utils/hash.js";
+import { generateToken } from "../utils/jwt.js";
 
 const createServiceError = (message, statusCode) => {
   const error = new Error(message);
@@ -73,19 +74,25 @@ export class SessionsService {
     };
   };
 
-  static login = async ({email, password}) => {
+  static loginStateLess = async (credentials = {}) => {
+    const user = await SessionsService.authenticate(credentials);
+    return generateToken(user);
+  };
+
+  static authenticate = async ({ email, password }) => {
     if (typeof email !== 'string' || !email.trim() || typeof password !== 'string' || !password) {
       throw createServiceError('Email y contraseña son obligatorios', 401);
     }
 
-
     const user = await UsersRepository.findByEmail(email.trim().toLowerCase());
-    
     const isValid = user ? await isValidPassword(password, user.password) : false;
+
     if (!isValid) {
       throw createServiceError('Credenciales invalidas', 401);
     }
 
-    return "New token";
+    return { id: String(user._id), email: user.email, role: user.role };
   };
+
+  
 }
